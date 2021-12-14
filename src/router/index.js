@@ -6,8 +6,9 @@ Vue.use(VueRouter)
 
 const routes = [
 	{
-		path: "",
+		path: "/",
 		component: Layout,
+		redirect: "/macroscopic",
 		children: [
 			{
 				path: "benefit",

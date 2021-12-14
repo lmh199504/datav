@@ -8,8 +8,10 @@
 <script>
 	export default {
 		data() {
+			const year = new Date().getFullYear() + ''
+			
 			return {
-				year: '2021'
+				year: year
 			}
 		}
 	}

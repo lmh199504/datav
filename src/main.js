@@ -5,11 +5,8 @@ import router from './router'
 import store from './store'
 
 import '@/assets/styles/global.less'
-
+import '@/utils/element.js'
 import '@/theme/index.css'
-import { DatePicker } from 'element-ui'
-
-Vue.use(DatePicker)
 
 Vue.config.productionTip = false
 

@@ -27,6 +27,7 @@
 		.app-container{
 			flex: 1;
 			padding: 0.520833rem 2.604166rem 2.604166rem 2.604166rem;
+			overflow: hidden;
 		}
 	}
 </style>

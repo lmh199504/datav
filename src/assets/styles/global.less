@@ -5,8 +5,92 @@
 	box-sizing: border-box;
 	// transition: all 0.4s ease
 }
+
 html,body{
 	min-width: 1200px;
 	width: 100%;
 	height: 100vh;
+}
+.chart_head{
+	display: flex;
+	justify-content: space-between;
+	height: 2.1875rem;
+	padding: 0 1.5625rem;
+	position: relative;
+	.head_left{
+		display: flex;
+		align-items: center;
+		.chart_title{
+			font-size: 0.833333rem;
+			font-weight: bold;
+			color: #FFFFFF;
+			line-height: 2.1875rem;
+		}
+		.tab_list{
+			margin-top: 0.260416rem;
+			margin-left: 2.604166rem;
+			display: flex;
+			color: #FFFFFF;
+			font-size: 0.729166rem;
+			.tab_item{
+				margin-right: 0.520833rem;
+				cursor: pointer;
+				position: relative;
+				text-align: center;
+			}
+			.tab_active, .tab_item:hover{
+				color: #05FFFE;
+				&::after{
+					content: '';
+					display: block;
+					position: absolute;
+					width: 100%;
+					width: 1.875rem;
+					height: 0.104166rem;
+					background: #05FFFE;
+					bottom: -0.416666rem;
+					left: 50%;
+					transform: translateX(-50%);
+				}
+			}
+		}
+	}
+}
+
+.flex_center{
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	align-items: center;
+}
+
+.over_one_line {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.over_tow_lines {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 2;
+}
+
+.over_three_lines {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 3;
+}
+
+
+
+// 当屏幕宽度小于1367
+@media screen and (max-width: 1367px) {
+	.chart_head{
+		height: 3.529rem;
+	}
 }
