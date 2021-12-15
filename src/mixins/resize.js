@@ -1,6 +1,4 @@
-// import {
-// 	debounce
-// } from '@/utils'
+import { debounce } from '@/utils'
 
 export default {
 	data() {
@@ -31,12 +29,12 @@ export default {
 	},
 	methods: {
 		initListener() {
-			// this.$_resizeHandler = debounce(() => {
-			// 	this.resize()
-			// }, 100)
-			this.$_resizeHandler = () => {
+			this.$_resizeHandler = debounce(() => {
 				this.resize()
-			}
+			}, 100)
+			// this.$_resizeHandler = () => {
+			// 	this.resize()
+			// }
 			window.addEventListener('resize', this.$_resizeHandler)
 		},
 		destroyListener() {

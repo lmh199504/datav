@@ -1,6 +1,6 @@
 <template>
 	<div class="year_picker">
-		<el-date-picker v-model="year" type="year" placeholder="选择年" :clearable="false" format="yyyy年"/>
+		<el-date-picker v-model="year" type="year" placeholder="选择年" :clearable="false" format="yyyy年" :editable="false" popper-class="picker_date"/>
 		<div class="arrow"></div>
 	</div>
 </template>
@@ -55,5 +55,8 @@
 			top: 50%;
 			transform: translateY(-50%);
 		}
+	}
+	.picker_date{
+		z-index: 1000000;
 	}
 </style>

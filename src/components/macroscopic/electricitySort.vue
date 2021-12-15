@@ -15,26 +15,38 @@
 		</div>
 
 		<div class="table_list">
-			<div class="sort_item" v-for="item in 600" :key="item">
+			<div class="sort_item" v-for="item in 10" :key="item" @click="tabCompany">
 				<div class="sort_num flex_center">
 					<div class="tag">20351</div>
 				</div>
 				<div class="srot_name">厦门华电开关有限公司</div>
 			</div>
 		</div>
+		
+		<CompanyModal v-if="show" @close="show= false" :companyName="companyName"/>
 	</div>
 </template>
 
 <script>
+	import CompanyModal from './companyModal.vue'
 	export default {
+		components: {
+			CompanyModal
+		},
 		data() {
 			return {
-				timeType: 'year'
+				timeType: 'year',
+				show: false,
+				companyName: ''
 			}
 		},
 		methods: {
 			tabTime(type) {
 				this.timeType = type
+			},
+			tabCompany() {
+				this.companyName = '厦门华电开关有限公司'
+				this.show = true
 			}
 		}
 	}
@@ -52,6 +64,7 @@
 		overflow: hidden;
 
 		.chart_head {
+			flex-shrink: 0;
 			.head_right {
 				display: flex;
 				flex-direction: column;

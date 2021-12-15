@@ -1,6 +1,8 @@
 <template>
 	<div class="dataMap">
 		<div class="chart_id" :id="id" :class="className" :style="{width:width}" />
+		
+		<ModalMap v-if="show" @close="show=false"/>
 	</div>
 </template>
 
@@ -11,6 +13,8 @@
 	echarts.registerMap('xiamen', XMJson);
 	echarts.registerMap('xiamenout', XMJsonOut);
 	import resize from '@/mixins/resize.js'
+	
+	import ModalMap from '@/components/macroscopic/modalMap.vue'
 	export default{
 		mixins: [resize],
 		props: {
@@ -48,8 +52,13 @@
 					{ name: "集美区", value: 100 },
 					{ name: "同安区", value: 100 },
 					{ name: "翔安区", value: 100 }
-				]
+				],
+				show: false,
+				area: ""
 			}
+		},
+		components: {
+			ModalMap
 		},
 		mounted() {
 			this.initChart()
@@ -172,6 +181,13 @@
 				}
 			
 				this.chart.setOption(option)
+				
+				
+				this.chart.on('click',(params) => {
+					console.log(params)
+					this.area = params.data.name
+					this.show = true
+				})
 				
 			},
 			convertData(data) {
