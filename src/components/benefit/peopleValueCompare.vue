@@ -67,7 +67,10 @@
 						data: [
 							{
 								name: "今年单位人员产值",
-								icon: "rect"
+								icon: "rect",
+								itemStyle: {
+									color: "rgba(253, 152, 30, 1)"
+								}
 							},
 							{
 								name: "去年单位人员产值",
