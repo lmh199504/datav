@@ -8,10 +8,20 @@
 </template>
 
 <script>
+	import { reqGetEntInfo } from '@/api/index'
 	import TopHeader from '@/components/header.vue'
 	export default{
 		components: {
 			TopHeader
+		},
+		created() {
+			var data = {
+				appId: '123132',
+				years: '2021',
+				page: 1,
+				limit: 10
+			}
+			reqGetEntInfo(data)
 		}
 	}
 </script>

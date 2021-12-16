@@ -2,7 +2,10 @@
 	<div class="dataMap">
 		<div class="chart_id" :id="id" :class="className" :style="{width:width}" />
 		
-		<ModalMap v-if="show" @close="show=false"/>
+		<ModalMap v-if="show" @close="show=false" :area="area"/>
+		
+		
+		<ComLoading v-if="loading"/>
 	</div>
 </template>
 
@@ -15,6 +18,8 @@
 	import resize from '@/mixins/resize.js'
 	
 	import ModalMap from '@/components/macroscopic/modalMap.vue'
+	import ComLoading from '@/components/loading/index.vue'
+	import { mapGetters } from 'vuex'
 	export default{
 		mixins: [resize],
 		props: {
@@ -54,16 +59,29 @@
 					{ name: "翔安区", value: 100 }
 				],
 				show: false,
-				area: ""
+				area: "",
+				loading: false
 			}
 		},
 		components: {
-			ModalMap
+			ModalMap,
+			ComLoading
+		},
+		computed: {
+			...mapGetters([
+				'cur_year'
+			])
 		},
 		mounted() {
 			this.initChart()
 		},
 		methods: {
+			getData() {
+				this.loading = true
+				setTimeout(() => {
+					this.loading = false
+				}, 1500)
+			},
 			initChart() {
 				// var self = this
 				this.chart = echarts.init(document.getElementById(this.id));
@@ -205,6 +223,11 @@
 				// console.log(res)
 				return res;
 			},
+		},
+		watch: {
+			cur_year: function() {
+				this.getData()
+			}
 		}
 	}
 </script>
@@ -213,6 +236,7 @@
 	.dataMap{
 		height: 100%;
 		width: 100%;
+		position: relative;
 		.chart_id{
 			height: 100%;
 			width: 100%;

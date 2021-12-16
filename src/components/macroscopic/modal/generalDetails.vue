@@ -41,6 +41,8 @@
 		</div>
 		
 		<ComLoading v-if="loading"/>
+		
+		<!-- <div style="color: red;position: absolute;z-index: 100;top: 10px;right: 10px">{{ year }}</div> -->
 	</div>
 </template>
 
@@ -50,7 +52,7 @@
 		props: {
 			year: {
 				type: String,
-				default: new Date().getFullYear() + ''
+				default: ''
 			}
 		},
 		data() {
@@ -68,16 +70,31 @@
 		components: {
 			ComLoading
 		},
+		mounted() {
+			
+		},
 		methods: {
 			tabTime(type) {
 				this.timeType = type
+				this.getData()
 			},
 			tabNext() {
 				this.page ++
+				this.getData()
+			},
+			getData() {
 				this.loading = true
 				setTimeout(() => {
 					this.loading = false
 				}, 1500)
+			}
+		},
+		watch: {
+			year: {
+				handler: function() {
+					this.getData()
+				},
+				immediate: true
 			}
 		}
 	}

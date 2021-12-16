@@ -1,17 +1,40 @@
 <template>
 	<div class="year_picker">
-		<el-date-picker v-model="year" type="year" placeholder="选择年" :clearable="false" format="yyyy年" :editable="false" popper-class="picker_date"/>
+		<el-date-picker v-model="year" type="year" placeholder="选择年" :clearable="false" format="yyyy年" :editable="false"
+			popper-class="picker_date" :picker-options="pickerOptions" @change="change" value-format="yyyy" />
 		<div class="arrow"></div>
 	</div>
 </template>
 
 <script>
 	export default {
+		props: {
+			dateyear: {
+				type: String,
+				default: ''
+			}
+		},
 		data() {
 			const year = new Date().getFullYear() + ''
-			
+
 			return {
-				year: year
+				year: year,
+				pickerOptions: {
+					disabledDate(time) {
+						return time.getTime() > Date.now();
+					}
+				}
+			}
+		},
+		created() {
+			if(this.dateyear) {
+				this.year = this.dateyear
+			}
+		},
+		methods: {
+			change(value) {
+				this.$emit('change', value)
+				this.$emit('input', value)
 			}
 		}
 	}
@@ -22,7 +45,7 @@
 		width: 7.135416rem;
 		height: 2.135416rem;
 		position: relative;
-		
+
 		/deep/ .el-input__inner {
 			cursor: pointer;
 			background-color: transparent;
@@ -36,9 +59,11 @@
 			padding-left: 1.5625rem;
 			padding-right: 1.5625rem;
 		}
-		/deep/ .el-input__prefix{
-				display: none;
-			}
+
+		/deep/ .el-input__prefix {
+			display: none;
+		}
+
 		/deep/ .el-date-editor.el-input {
 			width: 100%;
 
@@ -56,7 +81,8 @@
 			transform: translateY(-50%);
 		}
 	}
-	.picker_date{
+
+	.picker_date {
 		z-index: 1000000;
 	}
 </style>

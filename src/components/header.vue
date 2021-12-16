@@ -4,7 +4,7 @@
 			<div class="title">
 				厦门市经济运行监测系统
 			</div>
-			<DatePicker />
+			<DatePicker @change="change"/>
 		</div>
 		<div class="right">
 			<div class="menu_list">
@@ -27,6 +27,12 @@
 		},
 		components: {
 			DatePicker
+		},
+		methods: {
+			change(value) {
+				console.log(value)
+				this.$store.commit("SET_YEAR", value)
+			}
 		}
 	}
 </script>

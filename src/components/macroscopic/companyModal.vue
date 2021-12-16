@@ -3,23 +3,23 @@
 		<template>
 			<div class="content">
 				<div class="arae_name">{{ companyName }}</div>
-				<DatePicker />
+				<DatePicker v-model="dateyear" :dateyear="dateyear"/>
 				
 				<div class="main_chart">
 					<div class="chart_left">
 						<div class="left_top_chart">
-							<EntMsg />
+							<EntMsg :year="dateyear"/>
 						</div>
 						<div class="left_bottom_chart">
-							<ProductionData />
+							<ProductionData :year="dateyear"/>
 						</div>
 					</div>
 					<div class="chart_right">
 						<div class="right_top_chart">
-							<PeopleCompare />
+							<PeopleCompare :year="dateyear"/>
 						</div>
 						<div class="right_bottom_chart">
-							<ElectricCompare />
+							<ElectricCompare :year="dateyear"/>
 						</div>
 					</div>
 				</div>
@@ -35,6 +35,7 @@
 	import ProductionData from '@/components/macroscopic/companyModal/productionData.vue'
 	import ElectricCompare from './companyModal/electricCompare.vue'
 	import PeopleCompare from './companyModal/peopleCompare.vue'
+	import { mapGetters } from 'vuex'
 	export default{
 		props: {
 			companyName: {
@@ -49,6 +50,19 @@
 			ProductionData,
 			ElectricCompare,
 			PeopleCompare
+		},
+		data() {
+			return {
+				dateyear: ""
+			}
+		},
+		computed: {
+			...mapGetters([
+				'cur_year'
+			])
+		},
+		created() {
+			this.dateyear = this.cur_year
 		},
 		methods: {
 			close() {
@@ -101,6 +115,7 @@
 				}
 				.left_bottom_chart{
 					flex: 1;
+					overflow: hidden;
 				}
 			}
 			.chart_right{

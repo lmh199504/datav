@@ -10,12 +10,18 @@
 			<div class="unit">单位：亿元</div>
 			<div class="chart_id" :id="id" :class="className" :style="{height:height,width:width}" />
 		</div>
+
+		<ComLoading v-if="loading" />
 	</div>
 </template>
 
 <script>
 	import * as echarts from 'echarts'
 	import resize from '@/mixins/resize'
+	import ComLoading from '@/components/loading/index.vue'
+	import {
+		mapGetters
+	} from 'vuex'
 	export default {
 		mixins: [resize],
 		props: {
@@ -40,13 +46,28 @@
 			return {
 				collegeName: ['01', '02', '03', '04', '05', '06'],
 				peopleList: [100, 120, 130, 140, 150, 160],
-				eleList: [80, 90, 100, 110, 120, 130]
+				eleList: [80, 90, 100, 110, 120, 130],
+				loading: false
 			}
+		},
+		components: {
+			ComLoading
+		},
+		computed: {
+			...mapGetters([
+				'cur_year'
+			])
 		},
 		mounted() {
 			this.initChart()
 		},
 		methods: {
+			getData() {
+				this.loading = true
+				setTimeout(() => {
+					this.loading = false
+				}, 1500)
+			},
 			initChart() {
 				this.chart = echarts.init(document.getElementById(this.id));
 				let option = {
@@ -54,6 +75,7 @@
 					tooltip: {
 						show: true,
 						trigger: 'axis',
+						
 					},
 					legend: {
 						show: true,
@@ -62,8 +84,7 @@
 						textStyle: {
 							color: '#fff'
 						},
-						data: [
-							{
+						data: [{
 								name: "今年销售值",
 								icon: "rect"
 							},
@@ -136,8 +157,8 @@
 						type: 'line',
 						// yAxisIndex: 0,
 						barWidth: '16',
-						
-						
+
+
 						itemStyle: {
 							normal: {
 								//颜色设置
@@ -153,9 +174,9 @@
 								color: 'rgba(176, 70, 132, 0.1)'
 							}]),
 						},
-						
+
 						symbol: "none",
-						smooth:true,//设置折线图平滑
+						smooth: true, //设置折线图平滑
 					}, {
 						name: "去年销售值",
 						data: this.eleList,
@@ -178,18 +199,23 @@
 							}]),
 						},
 						symbol: "none",
-						smooth:true,//设置折线图平滑
+						smooth: true, //设置折线图平滑
 					}]
 				};
 				this.chart.clear()
 				this.chart.setOption(option)
+			}
+		},
+		watch: {
+			cur_year: function() {
+				this.getData()
 			}
 		}
 	}
 </script>
 
 <style scoped lang="less">
-	.outputValue{
+	.outputValue {
 		width: 100%;
 		height: 100%;
 		background-image: url(../../assets/images/history/history_chart_bg.png);
@@ -197,14 +223,18 @@
 		background-repeat: no-repeat;
 		display: flex;
 		flex-direction: column;
+		position: relative;
+
 		.chart_id {
 			height: 100%;
 		}
-		.chart_container{
+
+		.chart_container {
 			position: relative;
 			flex: 1;
 		}
-		.unit{
+
+		.unit {
 			position: absolute;
 			right: 60px;
 			color: #FFFFFF;

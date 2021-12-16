@@ -2,7 +2,7 @@
 	<div class="industryComparison">
 		<div class="chart_head">
 			<div class="head_left">
-				<div class="chart_title">数据概览</div>
+				<div class="chart_title">行业对比</div>
 				<div class="tab_list">
 					<div class="tab_item" :class="{ tab_active: timeType == 'year' }" @click="tabTime('year')">当年</div>
 					<div class="tab_item" :class="{ tab_active: timeType == 'month' }" @click="tabTime('month')">当月</div>
@@ -205,6 +205,7 @@
 
 <script>
 	import ComLoad from '@/components/loading/index.vue'
+	import { mapGetters } from 'vuex'
 	export default{
 		components: {
 			ComLoad
@@ -220,35 +221,41 @@
 		computed: {
 			disablePre: function() {
 				return this.page == 0
-			}
+			},
+			...mapGetters([
+				'cur_year'
+			])
 		},
 		methods: {
 			tabPre() {
 				if(this.disablePre) {
 					return
 				}
-				this.loading = true
+				
 				this.page --
-				setTimeout(() => {
-					this.loading = false
-				}, 1500)
+				this.getData()
 			},
 			tabNext() {
-				this.loading = true
+				
 				this.page ++
-				setTimeout(() => {
-					this.loading = false
-				}, 1500)
+				this.getData()
 			},
 			tabTime(type) {
 				this.timeType = type
+				this.getData()
+			},
+			getData() {
 				this.loading = true
 				setTimeout(() => {
 					this.loading = false
 				}, 1500)
-			}
+			},
 		},
-		
+		watch: {
+			cur_year: function() {
+				this.getData()
+			}
+		}
 	}
 </script>
 

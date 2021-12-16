@@ -1,6 +1,6 @@
 <template>
 	<div class="areaSelect">
-		<el-select v-model="value" placeholder="请选择">
+		<el-select v-model="value" placeholder="请选择" @change="change">
 			<el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
 			</el-option>
 		</el-select>	
@@ -39,6 +39,11 @@
 					}
 				],
 				value: "所有区"
+			}
+		},
+		methods: {
+			change(value) {
+				this.$emit('change', value)
 			}
 		}
 	}

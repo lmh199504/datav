@@ -51,10 +51,33 @@
 				</div>
 			</div>
 		</div>
+		<ComLoading v-if="loading"/>
 	</div>
 </template>
 
 <script>
+	import ComLoading from '@/components/loading/index.vue'
+	export default{
+		data() {
+			return {
+				loading: false
+			}
+		},
+		components: {
+			ComLoading
+		},
+		created() {
+			this.getData()
+		},
+		methods: {
+			getData() {
+				this.loading = true
+				setTimeout(() => {
+					this.loading = false
+				}, 1500)
+			},
+		}
+	}
 </script>
 
 <style scoped lang="less">
@@ -65,6 +88,7 @@
 		background-image: url(../../../assets/images/macroscopic/entmsg_bg.png);
 		background-size: 100% 100%;
 		background-repeat: no-repeat;
+		position: relative;
 		.list_wrapper{
 			padding: 1px 3px 1px 1px;
 			.line_item{

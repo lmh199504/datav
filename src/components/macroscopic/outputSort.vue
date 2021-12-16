@@ -15,7 +15,7 @@
 		</div>
 
 		<div class="table_list">
-			<div class="sort_item" v-for="item in 10" :key="item" @click="tabCompany">
+			<div class="sort_item" v-for="item in 100" :key="item" @click="tabCompany">
 				<div class="sort_num flex_center">
 					<div class="tag">20351</div>
 				</div>
@@ -25,30 +25,51 @@
 		
 		
 		<CompanyModal v-if="show" @close="show= false" :companyName="companyName"/>
-		
+		<ComLoading v-if="loading"/>
 	</div>
 </template>
 
 <script>
 	import CompanyModal from './companyModal.vue'
+	import ComLoading from '@/components/loading/index.vue'
+	import { mapGetters } from 'vuex'
 	export default {
 		data() {
 			return {
 				timeType: 'year',
 				show: false,
-				companyName: ''
+				companyName: '',
+				loading: false
 			}
 		},
 		components: {
-			CompanyModal
+			CompanyModal,
+			ComLoading
+		},
+		computed: {
+			...mapGetters([
+				'cur_year'
+			])
 		},
 		methods: {
 			tabTime(type) {
 				this.timeType = type
+				this.getData()
 			},
 			tabCompany() {
 				this.companyName = '厦门华电开关有限公司'
 				this.show = true
+			},
+			getData() {
+				this.loading = true
+				setTimeout(() => {
+					this.loading = false
+				}, 1500)
+			},
+		},
+		watch: {
+			cur_year: function() {
+				this.getData()
 			}
 		}
 	}
@@ -57,14 +78,14 @@
 <style scoped lang="less">
 	.outputSort {
 		width: 100%;
-		max-height: 100%;
+		height: 100%;
 		background-image: url(../../assets/images/macroscopic/output_bg.png);
 		background-size: 100% 100%;
 		background-repeat: no-repeat;
 		display: flex;
 		flex-direction: column;
 		overflow: hidden;
-
+		position: relative;
 		.chart_head {
 			flex-shrink: 0;
 			.head_right {
@@ -79,7 +100,6 @@
 
 		.table_list {
 			flex: 1;
-			max-height: calc(100% - 42px);
 			padding: 1px;
 			overflow: auto;
 			border-bottom: 1px solid #1abcdc;

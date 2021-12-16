@@ -1,26 +1,30 @@
 <template>
-	<div class="industryDistribution">
-		<div class="total">
-			<div>产业分布：</div>
-			<div class="tab_list">
-				<div class="tab_item" :class="{ tab_active: timeType == 'year' }" @click="tabTime('year')">当年</div>
-				<div class="tab_item" :class="{ tab_active: timeType == 'month' }" @click="tabTime('month')">当月
+	<div class="typeDistribution">
+		<div class="chart_head">
+			<div class="head_left">
+				<div class="chart_title">战新分布</div>
+				
+				<div class="tab_list">
+					<div class="tab_item" :class="{ tab_active: timeType == 'year' }" @click="tabTime('year')">当年</div>
+					<div class="tab_item" :class="{ tab_active: timeType == 'month' }" @click="tabTime('month')">当月
+					</div>
 				</div>
 			</div>
-		</div>
-		<div class="chart_id" :id="id" :class="className" :style="{width:width}" />
+			<div class="head_right">
 		
+			</div>
+		</div>
+		<div class="chart_id" :id="id" :class="className" :style="{height:height,width:width}" />
 		<ComLoading v-if="loading"/>
-		<!-- <div style="color: red;position: absolute;z-index: 100;top: 10px;right: 10px">{{ year }}</div> -->
 	</div>
 </template>
 
 <script>
+	import ComLoading from '@/components/loading/index.vue'
 	import * as echarts from 'echarts';
 	import resize from '@/mixins/resize.js'
-	import ComLoading from '@/components/loading/index.vue'
 	import { mapGetters } from 'vuex'
-	export default {
+	export default{
 		props: {
 			className: {
 				type: String,
@@ -28,7 +32,7 @@
 			},
 			id: {
 				type: String,
-				default: 'chart_macroscopic_modal_industry'
+				default: 'chart_zhanXinDistribution'
 			},
 			width: {
 				type: String,
@@ -37,26 +41,22 @@
 			height: {
 				type: String,
 				default: '100%'
-			},
-			year: {
-				type: String,
-				default: ''
 			}
 		},
 		mixins: [resize],
 		data() {
 			return {
-				timeType: 'year',
+				timeType: "year",
 				loading: false
 			}
-		},
-		components: {
-			ComLoading
 		},
 		computed: {
 			...mapGetters([
 				'cur_year'
 			])
+		},
+		components: {
+			ComLoading
 		},
 		mounted() {
 			this.initChart()
@@ -83,7 +83,7 @@
 							
 							return `
 							<div class="modal_industry_tip">
-								<div class="modal_industry_tip_title">电子信息制造业</div>
+								<div class="modal_industry_tip_title">${ params.name }</div>
 								<div class="line_item">
 									<div class="line_item_name">企业数：</div><div class="line_item_num">34(12%)</div>
 								</div>
@@ -91,6 +91,16 @@
 									<div class="line_item_name">本年产值：</div><div class="line_item_num">207亿元(12%)</div>
 									<div class="up_percent">10%</div>
 									<div class="up_image"><i class="iconfont icon-xiangshang4" style="color:#FF0600;"></i></div>
+								</div>
+								<div class="line_item">
+									<div class="line_item_name">本年销售：</div><div class="line_item_num">207亿元(12%)</div>
+									<div class="up_percent">10%</div>
+									<div class="up_image"><i class="iconfont icon-xiangshang4" style="color:#FF0600;"></i></div>
+								</div>
+								<div class="line_item">
+									<div class="line_item_name">本年出口：</div><div class="line_item_num">207亿元(12%)</div>
+									<div class="down_percent">10%</div> 
+									<div class="up_image"><i class="iconfont icon-xiangshang4" style="color:#35B147;"></i></div>
 								</div>
 								<div class="line_item">
 									<div class="line_item_name">本年用电：</div><div class="line_item_num">200万千瓦(12%)</div>
@@ -108,8 +118,8 @@
 					},
 					legend: {
 						orient: 'vertical',
-						left: 'left',
-						top: 50,
+						left: 100,
+						top: 'center',
 						textStyle: {
 							color: '#fff'
 						},
@@ -117,10 +127,11 @@
 					series: [{
 						name: '行业分布',
 						type: 'pie',
-						radius: '75%',
+						radius: ['25%', '80%'],
 						label: {
 							show: false
 						},
+						roseType: 'area',
 						left: 100,
 						data: [{
 								value: 1048,
@@ -157,63 +168,24 @@
 			}
 		},
 		watch: {
-			year: {
-				handler: function() {
-					this.getData()
-				},
-				immediate: true
+			cur_year: function() {
+				this.getData()
 			}
 		}
 	}
 </script>
 
 <style scoped lang="less">
-	.industryDistribution {
-		height: 100%;
+	.typeDistribution{
 		width: 100%;
+		height: 100%;
 		display: flex;
 		flex-direction: column;
+		background-image: url(../../assets/images/type/type_bg.png);
+		background-size: 100% 100%;
+		background-repeat: no-repeat;
 		position: relative;
-		.total {
-			display: flex;
-			font-size: 0.833333rem;
-			font-weight: 400;
-			color: #FFFFFF;
-
-			.tab_list {
-				margin-left: 0.416666rem;
-				display: flex;
-				color: #FFFFFF;
-				font-size: 0.833333rem;
-
-				.tab_item {
-					margin-right: 1.041666rem;
-					cursor: pointer;
-					position: relative;
-					text-align: center;
-				}
-
-				.tab_active,
-				.tab_item:hover {
-					color: #05FFFE;
-
-					&::after {
-						content: '';
-						display: block;
-						position: absolute;
-						width: 100%;
-						width: 1.875rem;
-						height: 0.104166rem;
-						background: #05FFFE;
-						bottom: -0.208333rem;
-						left: 50%;
-						transform: translateX(-50%);
-					}
-				}
-			}
-		}
-
-		.chart_id {
+		.chart_id{
 			flex: 1;
 		}
 	}

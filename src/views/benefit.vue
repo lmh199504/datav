@@ -4,28 +4,28 @@
 			<PeopleValueCompare />
 		</div>
 		<div class="chart">
-			<ElectricHistory />
+			<ElectricValueCompare />
 		</div>
 		<div class="chart" style="margin-bottom: 0;">
-			<SaleHistory />
+			<OutputValueCompare />
 		</div>
 		<div class="chart" style="margin-bottom: 0;">
-			<ProportionArea />
+			<SaleValueCompare />
 		</div>
 	</div>
 </template>
 
 <script>
 	import PeopleValueCompare from '@/components/benefit/peopleValueCompare.vue'
-	import ElectricHistory from '@//components/history/electricHistory.vue'
-	import SaleHistory from '@/components/history/saleHistory.vue'
-	import ProportionArea from '@/components/history/proportionArea.vue'
+	import ElectricValueCompare from '@/components/benefit/electricValueCompare.vue'
+	import OutputValueCompare from '@/components/benefit/outputValueCompare.vue'
+	import SaleValueCompare from '@/components/benefit/saleValueCompare.vue'
 	export default{
 		components: {
 			PeopleValueCompare,
-			ElectricHistory,
-			SaleHistory,
-			ProportionArea
+			ElectricValueCompare,
+			OutputValueCompare,
+			SaleValueCompare
 		}
 	}
 </script>

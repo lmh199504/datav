@@ -4,12 +4,13 @@
 			<div class="head_left">
 				<div class="chart_title">数据概览</div>
 				<div class="tab_list">
-					<div class="tab_item tab_active">当年</div>
-					<div class="tab_item">当月</div>
+					<div class="tab_item" :class="{ tab_active: timeType == 'year' }" @click="tabTime('year')">当年</div>
+					<div class="tab_item" :class="{ tab_active: timeType == 'month' }" @click="tabTime('month')">当月
+					</div>
 				</div>
 			</div>
 			<div class="head_right">
-				<AreaSelect />
+				<AreaSelect @change="areaChange"/>
 			</div>
 			<!-- <img src="@/assets/images/macroscopic/overview_title.png" class="head_bg"> -->
 		</div>
@@ -168,20 +169,50 @@
 				</div>
 			</div>
 		</div>
-		
+		<ComLoading v-if="loading"/>
 	</div>
 </template>
 
 <script>
+	import ComLoading from '@/components/loading/index.vue'
 	import AreaSelect from '@/components/areaSelect.vue'
+	import { mapGetters } from 'vuex'
 	export default{
 		data() {
 			return {
-				
+				timeType: 'year',
+				loading: false
+			}
+		},
+		computed: {
+			...mapGetters([
+				'cur_year'
+			])
+		},
+		methods: {
+			tabTime(type) {
+				this.timeType = type
+				this.getData()
+			},
+			areaChange(value) {
+				console.log(value)
+				this.getData()
+			},
+			getData() {
+				this.loading = true
+				setTimeout(() => {
+					this.loading = false
+				}, 1500) 
 			}
 		},
 		components: {
-			AreaSelect
+			AreaSelect,
+			ComLoading
+		},
+		watch: {
+			cur_year: function() {
+				this.getData()
+			}
 		}
 	}
 </script>
@@ -193,11 +224,7 @@
 		background-image: url(../../assets/images/macroscopic/overview_bg.png);
 		background-size: 100% 100%;
 		background-repeat: no-repeat;
-		// .chart_head{
-		// 	background-image: url(../../assets/images/macroscopic/overview_title.png);
-		// 	background-size: 100% 100%;
-		// 	background-repeat: no-repeat;
-		// }
+		position: relative;
 		display: flex;
 		flex-direction: column;
 		.head_bg{

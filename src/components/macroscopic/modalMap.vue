@@ -3,23 +3,23 @@
 		<template>
 			<div class="content">
 				<div class="arae_name">{{ area }}</div>
-				<DatePicker />
+				<DatePicker v-model="dateyear" :dateyear="dateyear"/>
 				
 				<div class="main_chart">
 					<div class="chart_left">
-						<GeneralDetails />
+						<GeneralDetails :year="dateyear"/>
 					</div>
 					<div class="chart_right">
 						<div class="top_chart">
 							<div class="top_chart_item">
-								<IndustryDistribution id="chart_macroscopic_modal_industry1"/>
+								<IndustryDistribution id="chart_macroscopic_modal_industry1" :year="dateyear"/>
 							</div>
 							<div class="top_chart_item">
-								<IndustryDistribution id="chart_macroscopic_modal_industry2"/>
+								<IndustryDistribution id="chart_macroscopic_modal_industry2" :year="dateyear"/>
 							</div>
 						</div>
 						<div class="bottom_chart">
-							<CapitalComparison />
+							<CapitalComparison :year="dateyear"/>
 						</div>
 					</div>
 				</div>
@@ -34,6 +34,7 @@
 	import GeneralDetails from '@/components/macroscopic/modal/generalDetails.vue'
 	import IndustryDistribution from '@/components/macroscopic/modal/industryDistribution.vue'
 	import CapitalComparison from '@/components/macroscopic/modal/capitalComparison.vue'
+	import { mapGetters } from 'vuex'
 	export default{
 		props: {
 			area: {
@@ -42,7 +43,17 @@
 			}
 		},
 		data() {
-			return {}
+			return {
+				dateyear: ''
+			}
+		},
+		computed: {
+			...mapGetters([
+				'cur_year'
+			])
+		},
+		created() {
+			this.dateyear = this.cur_year
 		},
 		components: {
 			ModalBox,
@@ -54,6 +65,12 @@
 		methods: {
 			close() {
 				this.$emit("close")
+			}
+		},
+		watch: {
+			dateyear: function(val) {
+				console.log(val)
+				// this.$bus.$emit("map_date_change", val)
 			}
 		}
 	}

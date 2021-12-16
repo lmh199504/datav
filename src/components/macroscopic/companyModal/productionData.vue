@@ -2,7 +2,7 @@
 	<div class="productionData">
 		<div class="chart_head">
 			<div class="head_left">
-				<div class="chart_title">生成数据（2021）</div>
+				<div class="chart_title">生成数据（{{ year }}）</div>
 				
 			</div>
 			<div class="head_right"></div>
@@ -107,11 +107,44 @@
 				</div>
 			</div>
 		</div>
-		
+		<ComLoading v-if="loading"/>
 	</div>
 </template>
 
 <script>
+	import ComLoading from '@/components/loading/index.vue'
+	export default{
+		props: {
+			year: {
+				type: String,
+				default: ""
+			}
+		},
+		data() {
+			return {
+				loading: false
+			}
+		},
+		components: {
+			ComLoading
+		},
+		methods: {
+			getData() {
+				this.loading = true
+				setTimeout(() => {
+					this.loading = false
+				}, 1500)
+			},
+		},
+		watch: {
+			year: {
+				handler: function() {
+					this.getData()
+				},
+				immediate: true
+			}
+		}
+	}
 </script>
 
 <style scoped lang="less">
@@ -123,6 +156,7 @@
 		background-size: 100% 100%;
 		display: flex;
 		flex-direction: column;
+		position: relative;
 		.tagList{
 			height: 100%;
 			padding: 1.041666rem;

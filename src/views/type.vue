@@ -1,31 +1,31 @@
 <template>
 	<div class="history">
 		<div class="chart">
-			<OutputValue />
+			<TypeDistribution />
 		</div>
 		<div class="chart">
-			<ElectricHistory />
+			<IndustryDistribution />
 		</div>
 		<div class="chart" style="margin-bottom: 0;">
-			<SaleHistory />
+			<ZhanXinDistribution />
 		</div>
 		<div class="chart" style="margin-bottom: 0;">
-			<ProportionArea />
+			<IndustrialchainDistribution />
 		</div>
 	</div>
 </template>
 
 <script>
-	import OutputValue from '@/components/history/outputValue.vue'
-	import ElectricHistory from '@//components/history/electricHistory.vue'
-	import SaleHistory from '@/components/history/saleHistory.vue'
-	import ProportionArea from '@/components/history/proportionArea.vue'
+	import TypeDistribution from '@/components/type/typeDistribution.vue'
+	import IndustryDistribution from '@/components/type/industryDistribution.vue'
+	import ZhanXinDistribution from '@/components/type/zhanXinDistribution.vue'
+	import IndustrialchainDistribution from '@/components/type/IndustrialchainDistribution.vue'
 	export default{
 		components: {
-			OutputValue,
-			ElectricHistory,
-			SaleHistory,
-			ProportionArea
+			TypeDistribution,
+			IndustryDistribution,
+			ZhanXinDistribution,
+			IndustrialchainDistribution
 		}
 	}
 </script>

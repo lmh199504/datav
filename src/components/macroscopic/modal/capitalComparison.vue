@@ -2,12 +2,17 @@
 	<div class="capitalComparison">
 		<div class="unit">单位：万元</div>
 		<div class="chart_id" :id="id" :class="className" :style="{height:height,width:width}" />
+		
+		<!-- <div style="color: red;position: absolute;z-index: 100;top: 10px;right: 10px">{{ year }}</div> -->
+		<ComLoading v-if="loading"/>
 	</div>
 </template>
 
 <script>
 	import * as echarts from 'echarts'
 	import resize from '@/mixins/resize'
+	import ComLoading from '@/components/loading/index.vue'
+	import { mapGetters } from 'vuex'
 	export default {
 		mixins: [resize],
 		props: {
@@ -26,19 +31,38 @@
 			height: {
 				type: String,
 				default: '100%'
+			},
+			year: {
+				type: String,
+				default: ''
 			}
 		},
 		data() {
 			return {
 				collegeName: ['2021.01', '2021.02', '2021.03', '2021.04', '2021.05', '2021.06'],
 				peopleList: [100, 120, 130, 140, 150, 160],
-				eleList: [80, 90, 100, 110, 120, 130]
+				eleList: [80, 90, 100, 110, 120, 130],
+				loading: false
 			}
+		},
+		components: {
+			ComLoading
+		},
+		computed: {
+			...mapGetters([
+				'cur_year'
+			])
 		},
 		mounted() {
 			this.initChart()
 		},
 		methods: {
+			getData() {
+				this.loading = true
+				setTimeout(() => {
+					this.loading = false
+				}, 1500)
+			},
 			initChart() {
 				this.chart = echarts.init(document.getElementById(this.id));
 				let option = {
@@ -61,7 +85,22 @@
 						right: 160,
 						textStyle: {
 							color: '#fff'
+						},
+						data: [{
+							name: "单位用人产值",
+							icon: "rect",
+							itemStyle: {
+								color: "rgba(31, 128, 218, 1)"
+							}
+						},
+						{
+							name: "单位用电产值",
+							icon: "rect",
+							itemStyle: {
+								color: "rgba(255, 151, 29, 1)"
+							}
 						}
+						]
 					},
 					grid: {
 						// top: "10px",
@@ -162,6 +201,14 @@
 				};
 				this.chart.clear()
 				this.chart.setOption(option)
+			}
+		},
+		watch: {
+			year: {
+				handler: function() {
+					this.getData()
+				},
+				immediate: true
 			}
 		}
 	}

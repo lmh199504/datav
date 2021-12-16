@@ -10,13 +10,16 @@
 			</div>
 		</div>
 		<div class="chart_id" :id="id" :class="className" :style="{width:width}" />
-
+		
+		<ComLoading v-if="loading"/>
 	</div>
 </template>
 
 <script>
 	import * as echarts from 'echarts';
 	import resize from '@/mixins/resize.js'
+	import ComLoading from '@/components/loading/index.vue'
+	import { mapGetters } from 'vuex'
 	export default {
 		mixins: [resize],
 		props: {
@@ -38,12 +41,28 @@
 			}
 		},
 		data() {
-			return {}
+			return {
+				loading: false
+			}
+		},
+		components: {
+			ComLoading
+		},
+		computed: {
+			...mapGetters([
+				'cur_year'
+			])
 		},
 		mounted() {
 			this.initChart()
 		},
 		methods: {
+			getData() {
+				this.loading = true
+				setTimeout(() => {
+					this.loading = false
+				}, 1500)
+			},
 			initChart() {
 				// var self = this
 				this.chart = echarts.init(document.getElementById(this.id));
@@ -228,6 +247,11 @@
 
 				this.chart.setOption(option)
 
+			}
+		},
+		watch: {
+			cur_year: function() {
+				this.getData()
 			}
 		}
 	}

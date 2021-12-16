@@ -2,12 +2,15 @@
 	<div class="peopleCompare">
 		<div class="unit">单位：万元</div>
 		<div class="chart_id" :id="id" :class="className" :style="{height:height,width:width}" />
+		
+		<ComLoading v-if="loading"/>
 	</div>
 </template>
 
 <script>
 	import * as echarts from 'echarts'
 	import resize from '@/mixins/resize'
+	import ComLoading from '@/components/loading/index.vue'
 	export default {
 		mixins: [resize],
 		props: {
@@ -26,19 +29,33 @@
 			height: {
 				type: String,
 				default: '100%'
+			},
+			year: {
+				type: String,
+				default: ''
 			}
 		},
 		data() {
 			return {
 				collegeName: ['2021.01', '2021.02', '2021.03', '2021.04', '2021.05', '2021.06'],
 				peopleList: [100, 120, 130, 140, 150, 160],
-				eleList: [80, 90, 100, 110, 120, 400]
+				eleList: [80, 90, 100, 110, 120, 400],
+				loading: false
 			}
+		},
+		components: {
+			ComLoading
 		},
 		mounted() {
 			this.initChart()
 		},
 		methods: {
+			getData() {
+				this.loading = true
+				setTimeout(() => {
+					this.loading = false
+				}, 1500)
+			},
 			initChart() {
 				this.chart = echarts.init(document.getElementById(this.id));
 				let option = {
@@ -161,6 +178,14 @@
 				};
 				this.chart.clear()
 				this.chart.setOption(option)
+			}
+		},
+		watch: {
+			year: {
+				handler: function() {
+					this.getData()
+				},
+				immediate: true
 			}
 		}
 	}
