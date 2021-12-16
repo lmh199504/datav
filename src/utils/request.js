@@ -2,13 +2,16 @@ import axios from 'axios'
 
 const service = axios.create({
 	baseURL: '/api',
-	timeout: 50000
+	timeout: 50000,
 })
+
+service.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+
 
 service.interceptors.request.use(
 	config => {
 		// do something before request is sent
-
+		// config.headers['Content-Type'] = 'application/x-www-form-urlencoded'
 		return config
 	},
 	error => {
