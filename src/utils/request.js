@@ -1,17 +1,22 @@
 import axios from 'axios'
+import qs from 'qs'
 
 const service = axios.create({
 	baseURL: '/api',
 	timeout: 50000,
+	// `transformRequest` 允许在向服务器发送前，修改请求数据
+	// 只能用在 'PUT', 'POST' 和 'PATCH' 这几个请求方法
+	// 后面数组中的函数必须返回一个字符串，或 ArrayBuffer，或 Stream
+	transformRequest: [function(data) {
+		Object.assign(data, { appId: "appId" })
+		// console.log(data)
+		return  qs.stringify(data)
+	}]
 })
-
-service.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
-
 
 service.interceptors.request.use(
 	config => {
 		// do something before request is sent
-		// config.headers['Content-Type'] = 'application/x-www-form-urlencoded'
 		return config
 	},
 	error => {
