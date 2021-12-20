@@ -8,7 +8,7 @@ const service = axios.create({
 	// 只能用在 'PUT', 'POST' 和 'PATCH' 这几个请求方法
 	// 后面数组中的函数必须返回一个字符串，或 ArrayBuffer，或 Stream
 	transformRequest: [function(data) {
-		Object.assign(data, { appId: "appId" })
+		Object.assign(data, { appId: "20211220" })
 		// console.log(data)
 		return  qs.stringify(data)
 	}]
